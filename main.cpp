@@ -57,17 +57,17 @@ public:
     }
 private:
     // сортирует вектор доменов, убирает дубликаты и лишние поддомены
-    void PrepareForbiddenDomains() const {
+    void PrepareForbiddenDomains() {
         std::sort(forbidden_domains_.begin(), forbidden_domains_.end());
 
         auto new_end_iter = std::unique(forbidden_domains_.begin(), forbidden_domains_.end(), 
             [](const Domain& lhs, const Domain& rhs) {
-                return lhs.IsSubdomain(rhs) || rhs.IsSubdomain(lhs);
+                return rhs.IsSubdomain(lhs);
         });
         forbidden_domains_.erase(new_end_iter, forbidden_domains_.end());
     }
 
-    mutable std::vector<Domain> forbidden_domains_;
+    std::vector<Domain> forbidden_domains_;
 };
 
 // Читаем number доменов из потока input
